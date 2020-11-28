@@ -16,8 +16,6 @@ public class UserTest {
         // 1 读取配置
         InputStream in = Resources.getResourceAsStream("sqlmapconfig.xml");
 
-        System.out.println(in);
-
         // 2创建SqlSessionFactory工厂
         SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
         SqlSessionFactory factory = builder.build(in);

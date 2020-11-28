@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS user;
 创建IserMapper.xml和IUserDao.java时名称通常叫mapper
 在idea中创建目录大时候和包不一样
 包在创建是org.ith.lean是三级结构
-目录在创建时是一级结构也即 目录名叫org.ith.learn
+resources里面的目录在配置是要把.换成/
 mybatis的映射文件位置和dao接口的包结果相同
 映射mapper标签的namespace属性取值是dao接口的全限定类名
 映射文件的操作配置(select),其id属性必须是dao接口中的方法名
