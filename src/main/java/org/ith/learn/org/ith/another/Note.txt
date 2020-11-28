@@ -1,0 +1,34 @@
+package org.ith.learn.org.ith.another;
+
+/**
+
+
+DROP TABLE IF EXISTS user;
+
+ CREATE TABLE user (
+    id int(11) NOT NULL auto_increment,
+    username varchar(32) NOT NULL COMMENT '用户名',
+    birthday datetime default NULL COMMENT '生日',
+    sex char(1) default NULL COMMENT '性别',
+    address varchar(256) default NULL COMMENT '地址',
+    PRIMARY KEY (id)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ insert into user(username,birthday,sex,address) values ('刘小备','2004-06-08','男','承德市');
+ insert into user(username,birthday,sex,address) values ('关大羽','2003-12-23','男','德阳市');
+ insert into user(username,birthday,sex,address) values ('张老飞','2001-05-07','男','广州市');
+ insert into user(username,birthday,sex,address) values ('嫦小娥','1991-03-04','女','北京市');
+ insert into user(username,birthday,sex,address) values ('昭小君','1994-11-29','女','上海市');
+
+
+
+注意事项
+创建IserMapper.xml和IUserDao.java时名称通常叫mapper
+在idea中创建目录大时候和包不一样
+包在创建是org.ith.lean是三级结构
+目录在创建时是一级结构也即 目录名叫org.ith.learn
+mybatis的映射文件位置和dao接口的包结果相同
+映射mapper标签的namespace属性取值是dao接口的全限定类名
+映射文件的操作配置(select),其id属性必须是dao接口中的方法名
+
