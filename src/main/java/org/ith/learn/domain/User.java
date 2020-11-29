@@ -1,4 +1,4 @@
-package org.ith.learn.entity;
+package org.ith.learn.domain;
 
 import java.io.Serializable;
 import java.util.Date;

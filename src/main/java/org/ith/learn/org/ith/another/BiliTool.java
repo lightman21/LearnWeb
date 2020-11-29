@@ -11,10 +11,11 @@ import java.util.concurrent.Executors;
 public class BiliTool {
 
     private static List<File> fileList = new ArrayList<File>();
-    private static String filePath = "/Users/lightman_mac/Movies/285707752";
-    private static final String OUTPATH = "/tmp/mybatis/mybatis";
+    private static String filePath = "/Users/lightman_mac/497600248";
+    private static final String OUTPATH = "/Users/lightman_mac/tmpbaidu/android_gj/";
 
     public static void main(String[] args) {
+
         doWork();
     }
 
@@ -26,27 +27,24 @@ public class BiliTool {
             outFile.mkdirs();
         }
 
-        ExecutorService service = Executors.newCachedThreadPool();
+        ExecutorService service = Executors.newFixedThreadPool(10);
         CountDownLatch downLatch = new CountDownLatch(1);
+
 
         for (final String key : values.keySet()) {
             final String value = values.get(key);
             service.execute(new Runnable() {
                 public void run() {
-                    exec(key,value);
+                    exec(key, value);
                 }
             });
         }
 
-        downLatch.countDown();
-
         try {
-            downLatch.await();
+            Thread.sleep(3600 * 1000 * 10L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        service.shutdownNow();
 
         System.out.println("Done-------------doWork");
     }
@@ -54,7 +52,7 @@ public class BiliTool {
     private static Map<String, String> fillMaps() {
         List<String> videos = new ArrayList<String>();
         List<String> audios = new ArrayList<String>();
-        Map<String, String> values = new HashMap<String,String>();
+        Map<String, String> values = new HashMap<String, String>();
         for (File file : fileList) {
             String path = file.getPath();
             if (path.contains("video")) {
@@ -88,6 +86,7 @@ public class BiliTool {
 
             String sp = filePath.substring(filePath.lastIndexOf("/") + 1);
             String out = video.split(sp)[1].split("/")[1];
+            out = String.format("%03d", Integer.parseInt(out));
 
             String sb = "ffmpeg -i " + video + " -i " + audio +
                     " -c:v copy -strict experimental " +
@@ -95,14 +94,11 @@ public class BiliTool {
 
             String[] cmd = {"/bin/sh", "-c", sb};
             process = Runtime.getRuntime().exec(cmd);
-
-
             BufferedReader br = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String line;
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
             }
-
             process.waitFor();
 
             System.out.println("done " + OUTPATH + out + ".mp4");

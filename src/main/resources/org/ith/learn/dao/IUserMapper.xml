@@ -4,9 +4,73 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.ith.learn.dao.IUserDao">
 
-    <!--    配置查询所有-->
 
-    <select id="findAll" resultType="org.ith.learn.entity.User">
-        select * from user
+    <resultMap id="userMap" type="org.ith.learn.domain.AliasUser">
+        <!--   主键字段对应     -->
+        <id property="dearId" column="id"/>
+        <!--        非主键用result配置-->
+        <result property="dearSex" column="sex"/>
+        <result property="dearBirthday" column="birthday"/>
+        <result property="dearUsername" column="username"/>
+        <result property="dearAddress" column="address"/>
+    </resultMap>
+
+
+    <select id="findAllByMap" resultMap="userMap">
+        select * from user;
     </select>
+
+
+    <select id="findAll" resultType="org.ith.learn.domain.User">
+        select * from user;
+    </select>
+
+
+    <insert id="insertAndGetId">
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+        insert into user(username,birthday,sex,address) values (#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+
+    <select id="likeByVo" parameterType="org.ith.learn.domain.QueryVo" resultType="org.ith.learn.domain.User">
+        select * from user where username like #{user.username}
+    </select>
+
+
+    <!--    saveUser-->
+    <insert id="saveUser" parameterType="org.ith.learn.domain.User">
+        insert into user(username,birthday,sex,address)
+        values (#{username},#{birthday},#{sex},#{address});
+    </insert>
+
+    <update id="updateUser" parameterType="org.ith.learn.domain.User">
+        update user set username=#{username},birthday=#{birthday},sex=#{sex},address=#{address}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="int">
+        delete from user where id = #{id}
+    </delete>
+
+    <!--    likeUserName-->
+
+    <select id="likeUserName" resultType="org.ith.learn.domain.User" parameterType="string">
+        <!--     这里的参数名称name无所谓   -->
+        select * from user where username like #{name}
+    </select>
+
+
+    <select id="likeUserNameByUser" resultType="org.ith.learn.domain.User" parameterType="org.ith.learn.domain.User">
+        select * from user where username like '%${username}%'
+    </select>
+
+
+    <select id="queryAlias" resultType="org.ith.learn.domain.AliasUser">
+        select id as dearId,birthday as dearBirthday,sex as dearSex,
+        username as dearUsername,address as dearAddress
+        from user;
+    </select>
+
 </mapper>

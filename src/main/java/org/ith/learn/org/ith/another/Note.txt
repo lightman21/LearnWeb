@@ -32,3 +32,7 @@ mybatis的映射文件位置和dao接口的包结果相同
 映射mapper标签的namespace属性取值是dao接口的全限定类名
 映射文件的操作配置(select),其id属性必须是dao接口中的方法名
 
+
+mysql报错 ,如果/tmp/mysql.sock 确实没有的话
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)
+sudo /usr/local/mysql/support-files/mysql.server start
